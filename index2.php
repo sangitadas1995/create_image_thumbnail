@@ -18,9 +18,9 @@ and thumbnail will be set under thumbs folder
 
 
 // include file where image resizer function is set
-include 'process.php';
+include 'process2.php';
 
-if(!empty($_FILES['image']['name'])){
+if(!empty($_FILES['image'])){
 
 	$message = '';
 	// set height
@@ -28,18 +28,18 @@ if(!empty($_FILES['image']['name'])){
 	$width = '300';
 	$upload_folder = 'uploads';
 	$thumbnail_folder = 'thumbs';
-    //call thumbnail creation function and store thumbnail name
-    $upload_img = cwUpload('image','uploads/','',TRUE,'uploads/thumbs/',$height,$width);
-    
-    //full path of the thumbnail image
-    $thumb_src = 'uploads/thumbs/'.$upload_img;
-    
-    //set success and error messages
-    if($upload_img) {
-    	$message = 'Image Upload successfully';
-    } else {
-    	$message = 'Some error occurred, please try again.';
-    }
+        //call thumbnail creation function and store thumbnail name
+        $upload_img = cwUpload('image','uploads/','',TRUE,'uploads/thumbs/',$height,$width);
+        
+        //full path of the thumbnail image
+        $thumb_src = 'uploads/thumbs/'.$upload_img;
+        
+        //set success and error messages
+        if($upload_img) {
+        	$message = 'Image Upload successfully';
+        } else {
+        	$message = 'Some error occurred, please try again.';
+        }
 }else{
     
     //if form is not submitted, below variable should be blank
@@ -57,7 +57,7 @@ if(!empty($_FILES['image']['name'])){
 </head>
 <body>
 <form method="post" enctype="multipart/form-data">
-    <input type="file" name="image"/>
+    <input type="file" name="image[]" multiple="multiple"/>
     <input type="submit" name="submit" value="Upload"/>
 </form>
 
