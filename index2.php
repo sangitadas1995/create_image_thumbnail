@@ -12,7 +12,7 @@ Under it create thumbnail folder
 under uploads folder real image will be saved
 and thumbnail will be set under thumbs folder
 
-*/
+*/ 
 
 // include file where image resizer function is set
 include 'process2.php';
