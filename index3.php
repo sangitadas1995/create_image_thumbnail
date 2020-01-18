@@ -44,6 +44,7 @@
 				file_data = $(filename).prop("files")[0]; // Getting the properties of file from file field
 			    form_data.append('image['+i+']', file_data);
 			    form_data.append('tag['+i+']', $(tagname).val());
+			    form_data.append('postId', $(".id").val());
 			}
 			// form_data.append('tag', $(".tag").val());
 			$.ajax({
