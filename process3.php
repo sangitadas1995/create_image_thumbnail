@@ -1,15 +1,15 @@
 <?php 
 
-if(!empty($_FILES['image'])){
+if(!empty($_FILES['image']) && $_POST){
 
     $message = '';
     // set height
     $height = '300';
     $width = '300';
-    $upload_folder = 'uploads';
-    $thumbnail_folder = 'thumbs';
+    $upload_folder = 'uploads/';
+    $thumbnail_folder = 'uploads/thumbs';
         //call thumbnail creation function and store thumbnail name
-        $upload_img = cwUpload('image','uploads/','',TRUE,'uploads/thumbs/',$height,$width);
+        $upload_img = cwUpload('image',$upload_folder,'',TRUE,$thumbnail_folder,$height,$width);
         
         //full path of the thumbnail image
         $thumb_src = 'uploads/thumbs/'.$upload_img;
@@ -57,12 +57,12 @@ function cwUpload($field_name = '', $target_folder = '', $file_name = '', $thumb
         $filename_err = explode(".",$_FILES[$field_name]['name'][$i]);
         $filename_err_count = count($filename_err);
         $file_ext = $filename_err[$filename_err_count-1];
-        $allowed_file_types = array('png','jpeg','jpg');  
+        $allowed_file_types = array('png','jpeg','jpg', 'JPG');  
 
         if (in_array($file_ext,$allowed_file_types)) {
             // rename file name
             $newfilename = uniqid().'.'.$file_ext;
-            $fileName = $newfilename;
+            $fileName = $newfilename; // original pic
 
             //upload image path
             $upload_image = $target_path.basename($fileName);
@@ -73,7 +73,8 @@ function cwUpload($field_name = '', $target_folder = '', $file_name = '', $thumb
                 //thumbnail creation
                 if($thumb == TRUE)
                 {
-                    $thumbnail = $thumb_path.'thumb_'.$fileName;
+                    $thumbnalImgName = 'thumb_'.$fileName;
+                    $thumbnail = $thumb_path.$thumbnalImgName; // thumbnail pic
                     list($width,$height) = getimagesize($upload_image);
                     $thumb_create = imagecreatetruecolor($thumb_width,$thumb_height);
                     switch($file_ext){
@@ -114,15 +115,18 @@ function cwUpload($field_name = '', $target_folder = '', $file_name = '', $thumb
                 // get file name - $fileName
                 // file uploaded successfully
                 echo "file uploaded successfully"; 
+                $sql = "INSERT into abc (jvj,jgvvg,tag,id) VALUES ($fileName, $thumbnalImgName, ".$_POST['tag'][$i].",".$_POST['postId'].")";
+                echo "sql ".$sql."<br>";
                 // return $fileName;
             } else {
                echo 'failed to upload';
+               return false;
             }
         } else {
             echo 'file type not supported';
-            // return false;
+            return false;
         }
-    }
+    } // end of for loop
 }
 
 ?>
