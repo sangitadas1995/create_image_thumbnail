@@ -11,8 +11,8 @@
 <body>
 
 <h2>Basic HTML Table</h2>
-
-<table style="width:100%">
+<button type="button" onclick="appendHTML()">Add</button>
+<table style="width:100%" id="myTable">
   <tr>
     <th>File</th>
     <th>Tag Name</th> 
@@ -33,6 +33,13 @@
 	<button type="submit" name="submit" id="submit" onclick="saveImg()">Submit</button>
 
 	<script>
+
+		function appendHTML() {
+			let counter = $(".abc").length+1;
+			let html = '<tr><td><input type="file" name="imageFile[]" class="abc" id="curr'+counter+'" accept="image/x-png,image/jpeg"></td><td><input type="text" name="tag[]" id="tag'+counter+'"></td></tr>';
+			$('#myTable tr:last').after(html);
+		}
+
 		function saveImg() {
 
 			var form_data = new FormData(); // Creating object of FormData class
